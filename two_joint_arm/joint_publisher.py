@@ -17,6 +17,13 @@ class JointPublisher(Node):
         msg2 = Float64()
         msg1.data = math.sin(self.angle)
         msg2.data = math.cos(self.angle)
+
+        # Collision detection thresholds
+        if abs(msg1.data) > 1.0:
+            self.get_logger().warn(f'Joint1 in collision range: {msg1.data:.2f}')
+        if abs(msg2.data) > 1.0:
+            self.get_logger().warn(f'Joint2 in collision range: {msg2.data:.2f}')
+
         self.pub1.publish(msg1)
         self.pub2.publish(msg2)
         self.get_logger().info(f'Published joint1: {msg1.data:.2f}, joint2: {msg2.data:.2f}')
